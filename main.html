@@ -1,0 +1,102 @@
+<script>
+function selectHand() {
+    const acceptableAnswers = ["rock", "paper", "scissors"];
+    
+    let playerSelection;
+
+    while (!(acceptableAnswers.includes(playerSelection))) {
+        console.log("Please enter either 'rock', 'paper' or 'scissors'. If you would like to exit, enter 'exit'");
+        
+        playerSelection = prompt("Enter choice: ");
+        playerSelection = playerSelection.toLowerCase();
+
+        if (playerSelection === "exit") {
+            process.exit(0);
+        }
+    }
+
+    return playerSelection;
+}
+
+function computerPlay() {
+    answer = Math.floor((Math.random() * 3) + 1);
+
+    switch(answer) {
+        case 1:
+            return "Rock";
+        case 2:
+            return "Paper";
+        case 3:
+            return "Scissors";
+    }
+}
+
+function playRound(playerSelection, computerSelection) {
+
+    const Rock = {
+        beats: "Scissors",
+        losesTo: "Paper"
+    };
+
+    const Paper = {
+        beats: "Rock",
+        losesTo: "Scissors"
+    };
+
+    const Scissors = {
+        beats: "Paper",
+        losesTo: "Rock"
+    };
+            
+    if (playerSelection === "rock") {
+        play = Rock;
+    } else if (playerSelection === "paper") {
+        play = Paper;
+    } else {
+        play = Scissors;
+    }
+
+    console.log("Computer played " + computerSelection)
+
+    if (play.beats === computerSelection) {
+        return ("You won the round.");
+    } else if (play.losesTo === computerSelection) {
+        return ("You lost the round.");
+    } else {
+        return ("Round tied.");
+    }
+
+    console.log(playRound(playerSelection, computerSelection));
+}
+
+function game() {
+    playerScore = 0;
+    computerScore = 0;
+
+    for(i = 0; i < 5; i++){
+        playerSelection = selectHand();
+        computerSelection = computerPlay();
+        game = playRound(playerSelection, computerSelection);
+        console.log(game);
+        if (game === "You won the round.") {
+            playerScore++;
+        } else if (game === "You lost the round.") {
+            computerScore++;
+        }
+        console.log(`Score: ${playerScore}-${computerScore}`);
+        console.log(`Rounds remaining: ${4-i}`);
+        console.log("");
+    }
+
+    if (playerScore > computerScore) {
+        console.log("You won the match!");
+    } else if (computerScore > playerScore) {
+        console.log("You literally lost to a bot.")
+    } else {
+        console.log("Match is tied.")
+    }
+
+}
+
+game();
+</script>
